@@ -3,7 +3,7 @@
 ## READ >> CODE
 _Here, we move our game up with some real blockchain heavyweight; __the ERC standards__._
 
-Before coding an ERC Standard, we need to know what is it and whats the rationale behind these.
+Before coding an ERC Standard, we need to know what are the EIPs and whats the rationale behind them.
  
 * You will first read about the major tokens used across Ethereum blockchain as a medium of value
   * ERC20
