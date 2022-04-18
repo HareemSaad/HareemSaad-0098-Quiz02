@@ -11,13 +11,11 @@ contract NFT {
     uint private nft_counter = 0;
     uint private total_supply;
     mapping(address => uint) nfts; //stores the token number with it's owner address
-    address developer = 0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2;
+    address developer = 0x5B38Da6a701c568545dCfcB03FcB875f56beddC4;
     address owner;
     uint ether_price = 0.05 ether;
-    uint pluto_price = 5;
-    uint comet_price = 10;
-    address plutoContractInstance = 0xcD6a42782d230D7c13A74ddec5dD140e55499Df9;
-    address cometContractInstance = 0xfC713AAB72F97671bADcb14669248C4e922fe2Bb;
+    uint pluto_price = 5*10**18;
+    uint comet_price = 10*10**18;
     
 
     constructor(){
@@ -42,26 +40,28 @@ contract NFT {
         require(msg.value == ether_price, "Wrong amount of ether");
         emit Received(msg.sender, msg.value);
         _mint();
-        //payable(developer).transfer(ether_price / 100 * 10 ** 18);
+        payable(developer).transfer(ether_price / 100);
     }
 
-    function mintUsingPluto() public payable{
+    //provide pluto contract address to mint
+    function mintUsingPluto(address plutoContractInstance) public payable{
         require(nft_counter <= total_supply, "out of stock");
         require(nfts[msg.sender] < 1, "cannot mint more than one nft");
         require(ERC20(plutoContractInstance).transferFrom(msg.sender, address(this), pluto_price), "transfer Failed");
         _mint();
-        ERC20(plutoContractInstance).transferFrom(address(this), developer, pluto_price/100*10**18);
+        ERC20(plutoContractInstance).transfer(developer, pluto_price/100);
     }
-
-    function mintUsingComet() public payable{
+    
+    //provide comet contract address to mint
+    function mintUsingComet(address cometContractInstance) public payable{
         require(nft_counter <= total_supply, "out of stock");
         require(nfts[msg.sender] < 1, "cannot mint more than one nft");
         require(ERC20(cometContractInstance).transferFrom(msg.sender, address(this), comet_price), "transfer Failed");
         _mint();
-        ERC20(cometContractInstance).transferFrom(address(this), developer, comet_price/100*10**18);
+        ERC20(cometContractInstance).transfer(developer, comet_price/100);
     }
 
-    function see(address _address) public view returns(uint) {
+    function thisAddressOwns(address _address) public view returns(uint) {
         return nfts[_address];
     }
 
@@ -74,17 +74,14 @@ contract NFT {
         payable(owner).transfer(address(this).balance);
     }
 
-    // function withdrawSomeEther(uint _amount) public {
-    //     require(msg.sender == owner, "you are not authorized to call this function");
-    //     payable(owner).transfer(_amount);
-    // }
-
-    function withdrawPluto(uint _amount) public {
+    //provide pluto contract address to mint
+    function withdrawPluto(address plutoContractInstance, uint _amount) public {
         require(msg.sender == owner, "you are not authorized to call this function");
         ERC20(plutoContractInstance).transfer(owner, _amount);
     }
 
-    function withdrawComet(uint _amount) public {
+    //provide comet contract address to mint
+    function withdrawComet(address cometContractInstance, uint _amount) public {
         require(msg.sender == owner, "you are not authorized to call this function");
         ERC20(cometContractInstance).transfer(owner, _amount);
     }
