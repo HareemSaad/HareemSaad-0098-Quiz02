@@ -8,7 +8,7 @@ contract Comet is ERC20 {
     address public deployer; //to save adress of the deployer
     
     constructor() ERC20('Comet', 'CMT') { //called by the deployer (once)
-        _mint(msg.sender, 10000 * 10 ** 18); //mint/create tokens - we have created 10000000*10^18 tokens
+        _mint(msg.sender, 10000000 * 10 ** 18); //mint/create tokens - we have created 10000000*10^18 tokens
         deployer = msg.sender;  //set the deployer
     }
 
@@ -26,7 +26,7 @@ contract Pluto is ERC20 {
     address public deployer; //to save adress of the deployer
     
     constructor() ERC20('Pluto', 'PLT') { //called by the deployer (once)
-        _mint(msg.sender, 1000000 * 10 ** 18); //mint/create tokens - we have created 100000000000*10^10 tokens
+        _mint(msg.sender, 1000000000000 * 10 ** 18); //mint/create tokens - we have created 100000000000*10^10 tokens
         deployer = msg.sender;  //set the deployer
     }
 
@@ -38,3 +38,5 @@ contract Pluto is ERC20 {
 }
 
 //approve: approves spender to use x amount of deployer's tokens, does not send spender money
+
+
